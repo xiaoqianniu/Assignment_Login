@@ -1,0 +1,27 @@
+# App
+
+Welcome to My App! 
+This is a login screen and registration form built using Jetpack Compose.
+
+## Features
+
+1.Login functionality with email and password inputs
+2.Registration form for new users
+3.Validation for empty fields
+4. Material theming and styling
+
+## Installation
+
+To use this project, follow these steps:
+1. Clone the repository: `git clone `
+2. Open the project in Android Studio or your preferred IDE.
+3. Build and run the app on an emulator or physical device.
+
+## Usage
+
+1. Launch the app on your device or emulator.
+2. On the login screen, enter your email and password.
+3. If you're a new user, click on the "New User? Click" text to access the registration form.
+4. Fill in the required fields in the registration form.
+5. Click the "Submit" button to register.
+6. Back on the login screen, click the "Login" button to log in with your credentials.
