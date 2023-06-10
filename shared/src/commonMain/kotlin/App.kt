@@ -52,7 +52,11 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import ui.theme.AppTheme
 
-
+/* A login screen Page with a tapBar and a registration form.
+* In the login page, two textFields, a button and a text with underline which is clickable.
+* If any of the two textFields is empty, the button login not enable, the color would be grey until it's enable.
+* same function in the registration form. Using materialTheme to change the color,shape, and style.
+* */
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 fun App() {
@@ -199,7 +203,6 @@ fun myLoginForm() {
         }
 
     }
-
     if (showCard.value) {
         Card(
             modifier = Modifier.padding(top = 16.dp).fillMaxSize(),
