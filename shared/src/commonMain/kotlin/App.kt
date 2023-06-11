@@ -25,6 +25,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ModalDrawer
 import androidx.compose.material.Scaffold
+import androidx.compose.material.SnackbarDefaults.backgroundColor
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.TextField
@@ -89,13 +90,13 @@ fun App() {
                 )
                 myLoginForm()
             }
-
         }
 
     }
 
 }
 
+/* add registration form background color*/
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 fun myLoginForm() {
@@ -154,7 +155,8 @@ fun myLoginForm() {
         if (showRegisterForm.value) {
             Card(
                 modifier = Modifier.padding(top = 16.dp).fillMaxSize(),
-                elevation = 10.dp
+                elevation = 10.dp,
+                backgroundColor = MaterialTheme.colors.secondary
             ) {
                 Column(
                     modifier = Modifier.padding(16.dp).fillMaxSize(),
@@ -163,33 +165,48 @@ fun myLoginForm() {
                     Text(
                         text = "Registration ",
                         style = MaterialTheme.typography.h5,
+                        color = MaterialTheme.colors.onPrimary,
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
-                    TextField(
-                        value = usernameValue.value,
-                        onValueChange = { usernameValue.value = it },
-                        textStyle = TextStyle(textAlign = TextAlign.Center),
-                        label = { Text("Enter username") })
                     Spacer(modifier = Modifier.height(10.dp))
-                    TextField(
-                        value = registrationEmail.value,
-                        onValueChange = { registrationEmail.value = it },
-                        textStyle = TextStyle(textAlign = TextAlign.Center),
-                        label = { Text("Enter email address") })
+                    Card(modifier = Modifier.padding(15.dp), elevation = 10.dp) {
+                        TextField(
+                            value = usernameValue.value,
+                            onValueChange = { usernameValue.value = it },
+                            textStyle = TextStyle(textAlign = TextAlign.Center),
+                            label = { Text("Enter username") })
+                    }
+
                     Spacer(modifier = Modifier.height(10.dp))
-                    TextField(
-                        value = registrationPassword.value,
-                        onValueChange = { registrationPassword.value = it },
-                        textStyle = TextStyle(textAlign = TextAlign.Center),
-                        label = { Text("Enter password") })
+                    Card(modifier = Modifier.padding(15.dp), elevation = 10.dp) {
+                        TextField(
+                            value = registrationEmail.value,
+                            onValueChange = { registrationEmail.value = it },
+                            textStyle = TextStyle(textAlign = TextAlign.Center),
+                            label = { Text("Enter email address") })
+                    }
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Card(modifier = Modifier.padding(15.dp), elevation = 10.dp) {
+                        TextField(
+                            value = registrationPassword.value,
+                            onValueChange = { registrationPassword.value = it },
+                            textStyle = TextStyle(textAlign = TextAlign.Center),
+                            label = { Text("Enter password") })
+                    }
                     Spacer(modifier = Modifier.height(15.dp))
 
                     Button(
-                        onClick = { showRegisterForm.value = false },
+                        onClick = {
+                            showRegisterForm.value = false
+                            usernameValue.value = ""
+                            registrationEmail.value = ""
+                            registrationPassword.value = ""
+                        },
                         enabled = !usernameValue.value.isEmpty() && !registrationEmail.value.isEmpty() && !registrationPassword.value.isEmpty()
                     ) {
                         Text("Submit", fontSize = 20.sp)
                     }
+
                 }
             }
         }
@@ -231,7 +248,11 @@ fun myLoginForm() {
                     text = "Password: ${passwordValue.value}",
                     style = MaterialTheme.typography.body1
                 )
-                Button(onClick = { showCard.value = false }) {
+                Button(onClick = {
+                    showCard.value = false
+                    emailValue.value = ""
+                    passwordValue.value = ""
+                }) {
                     Text("Back", fontSize = 20.sp)
                 }
             }
