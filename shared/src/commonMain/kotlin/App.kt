@@ -177,7 +177,11 @@ fun myLoginForm() {
 
     }
     if (showRegisterForm.value) {
-        registerForm( onDismiss={showRegisterForm.value = false})
+        registerForm( onDismiss={showRegisterForm.value = false},
+        onDataSubmitted = {email,password ->
+            emailValue.value = email
+            passwordValue.value = password
+        })
     }
     if (showCard.value) {
         loginInfoDisplay(emailValue.value, passwordValue.value,
@@ -233,9 +237,11 @@ fun loginInfoDisplay(email: String, password: String, onBackClicked: () -> Unit)
 
 
 /*registerForm method: displaying registration from.
-* note: when calling method, put it out of Column,or the size would be limited*/
+* note: when calling method, put it out of Column,or the size would be limited
+* added lambda function onDataSubmitted to pass email and password value back to textFields in login
+* */
 @Composable
-fun registerForm(onDismiss:() -> Unit) {
+fun registerForm(onDismiss:() -> Unit, onDataSubmitted:(String,String) -> Unit) {
     val username = remember { mutableStateOf("") }
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
@@ -299,10 +305,8 @@ fun registerForm(onDismiss:() -> Unit) {
             ) {
                 Button(
                     onClick = {
-                        username.value = ""
-                        email.value = ""
-                        password.value = ""
-                        confirmPwd.value = ""
+
+                        onDataSubmitted(email.value,password.value)
                         onDismiss()
                     },
                     enabled = !username.value.isEmpty() && !email.value.isEmpty() && !password.value.isEmpty() && !confirmPwd.value.isEmpty()
