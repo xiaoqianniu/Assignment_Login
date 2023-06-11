@@ -107,12 +107,31 @@ fun myLoginForm() {
     val registrationPassword = remember { mutableStateOf("") }
     val showCard = remember { mutableStateOf(false) }
     val showRegisterForm = remember { mutableStateOf(false) }
-
+    var isTextVisible = remember { mutableStateOf(false) }
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+        if (isTextVisible.value) {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    "No more recipe worries!",
+                    color = MaterialTheme.colors.primaryVariant,
+                    style = MaterialTheme.typography.h6
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+                Text(
+                    " Discover a world of delicious possibilities now!",
+                    color = MaterialTheme.colors.secondary,
+                    style = MaterialTheme.typography.subtitle1
+                )
+            }
+        }
+        Spacer(modifier = Modifier.height(15.dp))
         Image(
             painterResource("logo1.jpg"),
             null,
@@ -123,7 +142,9 @@ fun myLoginForm() {
                     color = MaterialTheme.colors.onPrimary,
                     shape = MaterialTheme.shapes.medium
                 )
+                .clickable { isTextVisible.value = !isTextVisible.value }
         )
+
         Spacer(modifier = Modifier.height(20.dp))
         Card(modifier = Modifier.padding(15.dp), elevation = 10.dp) {
             TextField(
