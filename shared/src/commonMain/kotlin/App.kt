@@ -130,7 +130,8 @@ fun myLoginForm() {
                 value = emailValue.value,
                 onValueChange = { emailValue.value = it },
                 textStyle = TextStyle(textAlign = TextAlign.Center),
-                label = { Text("Enter email address") }
+                label = { Text("Enter email address") },
+                singleLine = true
             )
         }
         Spacer(modifier = Modifier.height(15.dp))
@@ -139,7 +140,8 @@ fun myLoginForm() {
                 value = passwordValue.value,
                 onValueChange = { passwordValue.value = it },
                 textStyle = TextStyle(textAlign = TextAlign.Center),
-                label = { Text("Enter password") }
+                label = { Text("Enter password") },
+                singleLine = true
             )
         }
         Spacer(modifier = Modifier.height(15.dp))
@@ -174,7 +176,10 @@ fun myLoginForm() {
                             value = usernameValue.value,
                             onValueChange = { usernameValue.value = it },
                             textStyle = TextStyle(textAlign = TextAlign.Center),
-                            label = { Text("Enter username") })
+                            label = { Text("Enter username") },
+                            singleLine = true
+                        )
+
                     }
 
                     Spacer(modifier = Modifier.height(10.dp))
@@ -183,7 +188,9 @@ fun myLoginForm() {
                             value = registrationEmail.value,
                             onValueChange = { registrationEmail.value = it },
                             textStyle = TextStyle(textAlign = TextAlign.Center),
-                            label = { Text("Enter email address") })
+                            label = { Text("Enter email address") },
+                            singleLine = true
+                        )
                     }
                     Spacer(modifier = Modifier.height(10.dp))
                     Card(modifier = Modifier.padding(15.dp), elevation = 10.dp) {
@@ -191,7 +198,9 @@ fun myLoginForm() {
                             value = registrationPassword.value,
                             onValueChange = { registrationPassword.value = it },
                             textStyle = TextStyle(textAlign = TextAlign.Center),
-                            label = { Text("Enter password") })
+                            label = { Text("Enter password") },
+                            singleLine = true
+                        )
                     }
                     Spacer(modifier = Modifier.height(15.dp))
 
@@ -213,7 +222,11 @@ fun myLoginForm() {
 
         Spacer(modifier = Modifier.height(15.dp))
         Button(
-            onClick = { showCard.value = true },
+            onClick = {
+                showCard.value = true
+                emailValue.value = ""
+                passwordValue.value = ""
+            },
             enabled = !emailValue.value.isEmpty() && !passwordValue.value.isEmpty()
         ) {
             Text("Login", fontSize = 20.sp)
@@ -250,8 +263,7 @@ fun myLoginForm() {
                 )
                 Button(onClick = {
                     showCard.value = false
-                    emailValue.value = ""
-                    passwordValue.value = ""
+
                 }) {
                     Text("Back", fontSize = 20.sp)
                 }
