@@ -60,8 +60,8 @@ import androidx.compose.runtime.setValue
 @Composable
 fun App() {
     AppTheme {
-        var count by remember { mutableStateOf(0) }
-        mainScreen(count)
+
+        mainScreen()
     }
 //    AppTheme {
 //        Scaffold(

@@ -41,13 +41,13 @@ import org.jetbrains.compose.resources.painterResource
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
-fun registerForm(onDismiss: () -> Unit, onDataSubmitted: (String, String,count:Int) -> Unit) {
+fun registerForm(onDismiss: () -> Unit, onDataSubmitted: (String, String) -> Unit,onSubmit:(Int)->Unit,count:Int) {
 
     var username by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPwd by remember { mutableStateOf("") }
-    var count by remember { mutableStateOf(0) }
+
     val imageObjects = arrayListOf<String>("logo1.jpg","logo1.jpg","logo1.jpg")
 
     Card(
@@ -119,8 +119,9 @@ fun registerForm(onDismiss: () -> Unit, onDataSubmitted: (String, String,count:I
             ) {
                 Button(
                     onClick = {
+                        onSubmit(count+1)
+                        onDataSubmitted(email, password)
 
-                        onDataSubmitted(email, password,count +1)
                         onDismiss()
                     },
                     enabled = !username.isEmpty() && !email.isEmpty() && !password.isEmpty() && !confirmPwd.isEmpty()

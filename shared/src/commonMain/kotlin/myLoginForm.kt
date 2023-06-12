@@ -40,13 +40,14 @@ import androidx.compose.runtime.setValue
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
-fun myLoginForm(count:Int) {
+fun myLoginForm(count:Int, setCount:(Int)-> Unit) {
 
     var emailValue by remember { mutableStateOf("") }
     var passwordValue by remember { mutableStateOf("") }
     var showCard by remember { mutableStateOf(false) }
     var showRegisterForm by remember { mutableStateOf(false) }
     var isTextVisible by remember { mutableStateOf(false) }
+
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -128,6 +129,7 @@ fun myLoginForm(count:Int) {
         Button(
             onClick = {
                 showCard = true
+                setCount(count+1)
             },
             enabled = !emailValue.isEmpty() && !passwordValue.isEmpty()
         ) {
@@ -137,10 +139,13 @@ fun myLoginForm(count:Int) {
     }
     if (showRegisterForm) {
         registerForm(onDismiss = { showRegisterForm = false },
-            onDataSubmitted = { email, password, count ->
+            onDataSubmitted = { email, password ->
                 emailValue = email
                 passwordValue = password
-            })
+            },
+        onSubmit = setCount,
+            count = count
+        )
     }
     if (showCard) {
         loginInfoDisplay(emailValue, passwordValue,
