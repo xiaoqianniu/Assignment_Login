@@ -48,6 +48,8 @@ import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import ui.theme.AppTheme
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 
 /* A login screen Page with a tapBar and a registration form.
 * In the login page, two textFields, a button and a text with underline which is clickable.
@@ -58,36 +60,40 @@ import ui.theme.AppTheme
 @Composable
 fun App() {
     AppTheme {
-        Scaffold(
-            topBar = {
-                TopAppBar(title =
-                {
-                    Text(
-                        "Welcome!",
-                        color = MaterialTheme.colors.onPrimary,
-                        style = MaterialTheme.typography.h4,
-                        fontFamily = FontFamily.Cursive,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth(),
-                    )
-                }
-                )
-            })
-        {
-            Box(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                Image(
-                    painterResource("salad.jpg"),
-                    null,
-                    contentScale = ContentScale.FillBounds,
-                    modifier = Modifier.fillMaxSize(),
-                    alpha = 0.8F
-                )
-                myLoginForm()
-            }
-        }
+        var count by remember { mutableStateOf(0) }
+        mainScreen(count)
     }
+//    AppTheme {
+//        Scaffold(
+//            topBar = {
+//                TopAppBar(title =
+//                {
+//                    Text(
+//                        "Welcome!",
+//                        color = MaterialTheme.colors.onPrimary,
+//                        style = MaterialTheme.typography.h4,
+//                        fontFamily = FontFamily.Cursive,
+//                        textAlign = TextAlign.Center,
+//                        modifier = Modifier.fillMaxWidth(),
+//                    )
+//                }
+//                )
+//            })
+//        {
+//            Box(
+//                modifier = Modifier.fillMaxSize()
+//            ) {
+//                Image(
+//                    painterResource("salad.jpg"),
+//                    null,
+//                    contentScale = ContentScale.FillBounds,
+//                    modifier = Modifier.fillMaxSize(),
+//                    alpha = 0.8F
+//                )
+//                myLoginForm()
+//            }
+//        }
+//    }
 
 }
 
@@ -95,262 +101,262 @@ fun App() {
 * add logo image clickable and display messages
 * modify the textFields in one line
 * */
-@OptIn(ExperimentalResourceApi::class)
-@Composable
-fun myLoginForm() {
-
-    val emailValue = remember { mutableStateOf("") }
-    val passwordValue = remember { mutableStateOf("") }
-    val showCard = remember { mutableStateOf(false) }
-    val showRegisterForm = remember { mutableStateOf(false) }
-    var isTextVisible = remember { mutableStateOf(false) }
-
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        if (isTextVisible.value) {
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    "No more recipe worries!",
-                    color = MaterialTheme.colors.primaryVariant,
-                    style = MaterialTheme.typography.h6
-                )
-                Spacer(modifier = Modifier.height(10.dp))
-                Text(
-                    " Discover a world of delicious possibilities now!",
-                    color = MaterialTheme.colors.secondary,
-                    style = MaterialTheme.typography.subtitle1
-                )
-            }
-        }
-        Spacer(modifier = Modifier.height(15.dp))
-        Image(
-            painterResource("logo1.jpg"),
-            null,
-            modifier = Modifier.clip(CircleShape)
-                .size(120.dp)
-                .border(
-                    width = 2.dp,
-                    color = MaterialTheme.colors.onPrimary,
-                    shape = MaterialTheme.shapes.medium
-                )
-                .clickable { isTextVisible.value = !isTextVisible.value }
-        )
-
-        Spacer(modifier = Modifier.height(20.dp))
-        Card(modifier = Modifier.padding(15.dp), elevation = 10.dp) {
-            TextField(
-                value = emailValue.value,
-                onValueChange = { emailValue.value = it },
-                textStyle = TextStyle(textAlign = TextAlign.Center),
-                label = { Text("Enter email address") },
-                leadingIcon = {
-                    Icon(Icons.Filled.Email, contentDescription = "password icon")
-                },
-                singleLine = true
-            )
-        }
-        Spacer(modifier = Modifier.height(15.dp))
-//        Card(elevation = 10.dp) {
-            OutlinedTextField(
-                value = passwordValue.value,
-                onValueChange = { passwordValue.value = it },
-                textStyle = TextStyle(textAlign = TextAlign.Center),
-                label = { Text("Enter password") },
-                leadingIcon = {
-                    Icon(Icons.Filled.Lock, contentDescription = "password icon")
-                },
-                visualTransformation = PasswordVisualTransformation(),
-                singleLine = true
-            )
-
+//@OptIn(ExperimentalResourceApi::class)
+//@Composable
+//fun myLoginForm() {
+//
+//    val emailValue = remember { mutableStateOf("") }
+//    val passwordValue = remember { mutableStateOf("") }
+//    val showCard = remember { mutableStateOf(false) }
+//    val showRegisterForm = remember { mutableStateOf(false) }
+//    var isTextVisible = remember { mutableStateOf(false) }
+//
+//    Column(
+//        modifier = Modifier.fillMaxSize(),
+//        horizontalAlignment = Alignment.CenterHorizontally,
+//        verticalArrangement = Arrangement.Center
+//    ) {
+//        if (isTextVisible.value) {
+//            Column(
+//                modifier = Modifier.fillMaxWidth(),
+//                horizontalAlignment = Alignment.CenterHorizontally
+//            ) {
+//                Text(
+//                    "No more recipe worries!",
+//                    color = MaterialTheme.colors.primaryVariant,
+//                    style = MaterialTheme.typography.h6
+//                )
+//                Spacer(modifier = Modifier.height(10.dp))
+//                Text(
+//                    " Discover a world of delicious possibilities now!",
+//                    color = MaterialTheme.colors.secondary,
+//                    style = MaterialTheme.typography.subtitle1
+//                )
+//            }
 //        }
-        Spacer(modifier = Modifier.height(15.dp))
-
-        Text(
-            "New User? Click", fontSize = 20.sp,
-            style = TextStyle(textDecoration = TextDecoration.Underline),
-            modifier = Modifier.clickable(onClick = {
-                showRegisterForm.value = true
-
-            }, onClickLabel = "go to register")
-        )
-
-        Spacer(modifier = Modifier.height(15.dp))
-        Button(
-            onClick = {
-                showCard.value = true
-            },
-            enabled = !emailValue.value.isEmpty() && !passwordValue.value.isEmpty()
-        ) {
-            Text("Login", fontSize = 20.sp)
-        }
-
-    }
-    if (showRegisterForm.value) {
-        registerForm(onDismiss = { showRegisterForm.value = false },
-            onDataSubmitted = { email, password ->
-                emailValue.value = email
-                passwordValue.value = password
-            })
-    }
-    if (showCard.value) {
-        loginInfoDisplay(emailValue.value, passwordValue.value,
-            onBackClicked = {
-                showCard.value = false
-                emailValue.value = ""
-                passwordValue.value = ""
-            }
-        )
-
-    }
-}
+//        Spacer(modifier = Modifier.height(15.dp))
+//        Image(
+//            painterResource("logo1.jpg"),
+//            null,
+//            modifier = Modifier.clip(CircleShape)
+//                .size(120.dp)
+//                .border(
+//                    width = 2.dp,
+//                    color = MaterialTheme.colors.onPrimary,
+//                    shape = MaterialTheme.shapes.medium
+//                )
+//                .clickable { isTextVisible.value = !isTextVisible.value }
+//        )
+//
+//        Spacer(modifier = Modifier.height(20.dp))
+//        Card(modifier = Modifier.padding(15.dp), elevation = 10.dp) {
+//            TextField(
+//                value = emailValue.value,
+//                onValueChange = { emailValue.value = it },
+//                textStyle = TextStyle(textAlign = TextAlign.Center),
+//                label = { Text("Enter email address") },
+//                leadingIcon = {
+//                    Icon(Icons.Filled.Email, contentDescription = "password icon")
+//                },
+//                singleLine = true
+//            )
+//        }
+//        Spacer(modifier = Modifier.height(15.dp))
+////        Card(elevation = 10.dp) {
+//            OutlinedTextField(
+//                value = passwordValue.value,
+//                onValueChange = { passwordValue.value = it },
+//                textStyle = TextStyle(textAlign = TextAlign.Center),
+//                label = { Text("Enter password") },
+//                leadingIcon = {
+//                    Icon(Icons.Filled.Lock, contentDescription = "password icon")
+//                },
+//                visualTransformation = PasswordVisualTransformation(),
+//                singleLine = true
+//            )
+//
+////        }
+//        Spacer(modifier = Modifier.height(15.dp))
+//
+//        Text(
+//            "New User? Click", fontSize = 20.sp,
+//            style = TextStyle(textDecoration = TextDecoration.Underline),
+//            modifier = Modifier.clickable(onClick = {
+//                showRegisterForm.value = true
+//
+//            }, onClickLabel = "go to register")
+//        )
+//
+//        Spacer(modifier = Modifier.height(15.dp))
+//        Button(
+//            onClick = {
+//                showCard.value = true
+//            },
+//            enabled = !emailValue.value.isEmpty() && !passwordValue.value.isEmpty()
+//        ) {
+//            Text("Login", fontSize = 20.sp)
+//        }
+//
+//    }
+//    if (showRegisterForm.value) {
+//        registerForm(onDismiss = { showRegisterForm.value = false },
+//            onDataSubmitted = { email, password ->
+//                emailValue.value = email
+//                passwordValue.value = password
+//            })
+//    }
+//    if (showCard.value) {
+//        loginInfoDisplay(emailValue.value, passwordValue.value,
+//            onBackClicked = {
+//                showCard.value = false
+//                emailValue.value = ""
+//                passwordValue.value = ""
+//            }
+//        )
+//
+//    }
+//}
 
 /* loginInfoDisplay method with three parameters:
 for displaying the login information: email,password and dismiss the card and clear the textFields
 note: do not clear textFields value after calling method, it does not work, do it in onBackClicked*/
-@Composable
-fun loginInfoDisplay(email: String, password: String, onBackClicked: () -> Unit) {
-    Card(
-        modifier = Modifier.padding(top = 16.dp).fillMaxSize(),
-        elevation = 10.dp,
-        backgroundColor = MaterialTheme.colors.primaryVariant
-    ) {
-        Column(
-            modifier = Modifier.padding(16.dp),
-
-            horizontalAlignment = Alignment.CenterHorizontally
-
-        ) {
-            Text(
-                text = "Welcome back! ",
-                style = MaterialTheme.typography.h5,
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
-            Spacer(modifier = Modifier.height(10.dp))
-            Text(
-                text = "User Information",
-                style = MaterialTheme.typography.h6,
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
-            Text(
-                text = "Email: $email",
-                style = MaterialTheme.typography.body1,
-                modifier = Modifier.padding(bottom = 4.dp)
-            )
-            Text(
-                text = "Password: $password",
-                style = MaterialTheme.typography.body1
-            )
-            Spacer(modifier = Modifier.height(15.dp))
-            Button(onClick = {
-                onBackClicked()
-            }) {
-                Text("Back", fontSize = 20.sp)
-            }
-        }
-    }
-}
+//@Composable
+//fun loginInfoDisplay(email: String, password: String, onBackClicked: () -> Unit) {
+//    Card(
+//        modifier = Modifier.padding(top = 16.dp).fillMaxSize(),
+//        elevation = 10.dp,
+//        backgroundColor = MaterialTheme.colors.primaryVariant
+//    ) {
+//        Column(
+//            modifier = Modifier.padding(16.dp),
+//
+//            horizontalAlignment = Alignment.CenterHorizontally
+//
+//        ) {
+//            Text(
+//                text = "Welcome back! ",
+//                style = MaterialTheme.typography.h5,
+//                modifier = Modifier.padding(bottom = 8.dp)
+//            )
+//            Spacer(modifier = Modifier.height(10.dp))
+//            Text(
+//                text = "User Information",
+//                style = MaterialTheme.typography.h6,
+//                modifier = Modifier.padding(bottom = 8.dp)
+//            )
+//            Text(
+//                text = "Email: $email",
+//                style = MaterialTheme.typography.body1,
+//                modifier = Modifier.padding(bottom = 4.dp)
+//            )
+//            Text(
+//                text = "Password: $password",
+//                style = MaterialTheme.typography.body1
+//            )
+//            Spacer(modifier = Modifier.height(15.dp))
+//            Button(onClick = {
+//                onBackClicked()
+//            }) {
+//                Text("Back", fontSize = 20.sp)
+//            }
+//        }
+//    }
+//}
 
 /*registerForm method: displaying registration from.
 * note: when calling method, put it out of Column,or the size would be limited
 * added lambda function onDataSubmitted to pass email and password value back to textFields in login
 * */
-@Composable
-fun registerForm(onDismiss: () -> Unit, onDataSubmitted: (String, String) -> Unit) {
-    val username = remember { mutableStateOf("") }
-    val email = remember { mutableStateOf("") }
-    val password = remember { mutableStateOf("") }
-    val confirmPwd = remember { mutableStateOf("") }
-    Card(
-        modifier = Modifier.padding(top = 16.dp).fillMaxSize(),
-        elevation = 10.dp,
-        backgroundColor = MaterialTheme.colors.secondary
-    ) {
-        Column(
-            modifier = Modifier.padding(16.dp).fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = "Registration ",
-                style = MaterialTheme.typography.h5,
-                color = MaterialTheme.colors.onPrimary,
-                modifier = Modifier.padding(bottom = 8.dp, top = 10.dp)
-            )
-            Card(modifier = Modifier.padding(15.dp), elevation = 10.dp) {
-                TextField(
-                    value = username.value,
-                    onValueChange = { username.value = it },
-                    textStyle = TextStyle(textAlign = TextAlign.Center),
-                    label = { Text("Enter username") },
-                    singleLine = true
-                )
-            }
-            Card(modifier = Modifier.padding(15.dp), elevation = 10.dp) {
-                TextField(
-                    value = email.value,
-                    onValueChange = { email.value = it },
-                    textStyle = TextStyle(textAlign = TextAlign.Center),
-                    label = { Text("Enter email address") },
-                    singleLine = true
-                )
-            }
-            Card(modifier = Modifier.padding(15.dp), elevation = 10.dp) {
-                TextField(
-                    value = password.value,
-                    onValueChange = { password.value = it },
-                    textStyle = TextStyle(textAlign = TextAlign.Center),
-                    label = { Text("Enter password") },
-                    singleLine = true
-                )
-            }
-            Card(modifier = Modifier.padding(15.dp), elevation = 10.dp) {
-                TextField(
-                    value = confirmPwd.value,
-                    onValueChange = { confirmPwd.value = it },
-                    textStyle = TextStyle(textAlign = TextAlign.Center),
-                    label = { Text("Enter confirm password") },
-                    singleLine = true
-                )
-            }
-            Spacer(modifier = Modifier.height(10.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Button(
-                    onClick = {
-
-                        onDataSubmitted(email.value, password.value)
-                        onDismiss()
-                    },
-                    enabled = !username.value.isEmpty() && !email.value.isEmpty() && !password.value.isEmpty() && !confirmPwd.value.isEmpty()
-                ) {
-                    Text("Submit", fontSize = 20.sp)
-                }
-                Spacer(modifier = Modifier.width(20.dp))
-                Button(
-                    onClick = {
-                        username.value = ""
-                        email.value = ""
-                        password.value = ""
-                        confirmPwd.value = ""
-                        onDismiss()
-                    }
-                ) {
-                    Text("Cancel", fontSize = 20.sp)
-                }
-            }
-        }
-
-    }
-
-}
+//@Composable
+//fun registerForm(onDismiss: () -> Unit, onDataSubmitted: (String, String) -> Unit) {
+//    val username = remember { mutableStateOf("") }
+//    val email = remember { mutableStateOf("") }
+//    val password = remember { mutableStateOf("") }
+//    val confirmPwd = remember { mutableStateOf("") }
+//    Card(
+//        modifier = Modifier.padding(top = 16.dp).fillMaxSize(),
+//        elevation = 10.dp,
+//        backgroundColor = MaterialTheme.colors.secondary
+//    ) {
+//        Column(
+//            modifier = Modifier.padding(16.dp).fillMaxSize(),
+//            horizontalAlignment = Alignment.CenterHorizontally
+//        ) {
+//            Text(
+//                text = "Registration ",
+//                style = MaterialTheme.typography.h5,
+//                color = MaterialTheme.colors.onPrimary,
+//                modifier = Modifier.padding(bottom = 8.dp, top = 10.dp)
+//            )
+//            Card(modifier = Modifier.padding(15.dp), elevation = 10.dp) {
+//                TextField(
+//                    value = username.value,
+//                    onValueChange = { username.value = it },
+//                    textStyle = TextStyle(textAlign = TextAlign.Center),
+//                    label = { Text("Enter username") },
+//                    singleLine = true
+//                )
+//            }
+//            Card(modifier = Modifier.padding(15.dp), elevation = 10.dp) {
+//                TextField(
+//                    value = email.value,
+//                    onValueChange = { email.value = it },
+//                    textStyle = TextStyle(textAlign = TextAlign.Center),
+//                    label = { Text("Enter email address") },
+//                    singleLine = true
+//                )
+//            }
+//            Card(modifier = Modifier.padding(15.dp), elevation = 10.dp) {
+//                TextField(
+//                    value = password.value,
+//                    onValueChange = { password.value = it },
+//                    textStyle = TextStyle(textAlign = TextAlign.Center),
+//                    label = { Text("Enter password") },
+//                    singleLine = true
+//                )
+//            }
+//            Card(modifier = Modifier.padding(15.dp), elevation = 10.dp) {
+//                TextField(
+//                    value = confirmPwd.value,
+//                    onValueChange = { confirmPwd.value = it },
+//                    textStyle = TextStyle(textAlign = TextAlign.Center),
+//                    label = { Text("Enter confirm password") },
+//                    singleLine = true
+//                )
+//            }
+//            Spacer(modifier = Modifier.height(10.dp))
+//            Row(
+//                modifier = Modifier.fillMaxWidth(),
+//                verticalAlignment = Alignment.CenterVertically,
+//                horizontalArrangement = Arrangement.Center
+//            ) {
+//                Button(
+//                    onClick = {
+//
+//                        onDataSubmitted(email.value, password.value)
+//                        onDismiss()
+//                    },
+//                    enabled = !username.value.isEmpty() && !email.value.isEmpty() && !password.value.isEmpty() && !confirmPwd.value.isEmpty()
+//                ) {
+//                    Text("Submit", fontSize = 20.sp)
+//                }
+//                Spacer(modifier = Modifier.width(20.dp))
+//                Button(
+//                    onClick = {
+//                        username.value = ""
+//                        email.value = ""
+//                        password.value = ""
+//                        confirmPwd.value = ""
+//                        onDismiss()
+//                    }
+//                ) {
+//                    Text("Cancel", fontSize = 20.sp)
+//                }
+//            }
+//        }
+//
+//    }
+//
+//}
 
 expect fun getPlatformName(): String
