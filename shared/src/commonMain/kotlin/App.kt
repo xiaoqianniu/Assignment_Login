@@ -18,11 +18,17 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -33,6 +39,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
@@ -83,7 +91,7 @@ fun App() {
 
 }
 
-/* add registration form background color
+/* added registration form background color
 * add logo image clickable and display messages
 * modify the textFields in one line
 * */
@@ -141,19 +149,27 @@ fun myLoginForm() {
                 onValueChange = { emailValue.value = it },
                 textStyle = TextStyle(textAlign = TextAlign.Center),
                 label = { Text("Enter email address") },
+                leadingIcon = {
+                    Icon(Icons.Filled.Email, contentDescription = "password icon")
+                },
                 singleLine = true
             )
         }
         Spacer(modifier = Modifier.height(15.dp))
-        Card(elevation = 10.dp) {
-            TextField(
+//        Card(elevation = 10.dp) {
+            OutlinedTextField(
                 value = passwordValue.value,
                 onValueChange = { passwordValue.value = it },
                 textStyle = TextStyle(textAlign = TextAlign.Center),
                 label = { Text("Enter password") },
+                leadingIcon = {
+                    Icon(Icons.Filled.Lock, contentDescription = "password icon")
+                },
+                visualTransformation = PasswordVisualTransformation(),
                 singleLine = true
             )
-        }
+
+//        }
         Spacer(modifier = Modifier.height(15.dp))
 
         Text(
@@ -177,11 +193,11 @@ fun myLoginForm() {
 
     }
     if (showRegisterForm.value) {
-        registerForm( onDismiss={showRegisterForm.value = false},
-        onDataSubmitted = {email,password ->
-            emailValue.value = email
-            passwordValue.value = password
-        })
+        registerForm(onDismiss = { showRegisterForm.value = false },
+            onDataSubmitted = { email, password ->
+                emailValue.value = email
+                passwordValue.value = password
+            })
     }
     if (showCard.value) {
         loginInfoDisplay(emailValue.value, passwordValue.value,
@@ -203,15 +219,20 @@ fun loginInfoDisplay(email: String, password: String, onBackClicked: () -> Unit)
     Card(
         modifier = Modifier.padding(top = 16.dp).fillMaxSize(),
         elevation = 10.dp,
+        backgroundColor = MaterialTheme.colors.primaryVariant
     ) {
         Column(
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(16.dp),
+
+            horizontalAlignment = Alignment.CenterHorizontally
+
         ) {
             Text(
                 text = "Welcome back! ",
                 style = MaterialTheme.typography.h5,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
+            Spacer(modifier = Modifier.height(10.dp))
             Text(
                 text = "User Information",
                 style = MaterialTheme.typography.h6,
@@ -226,6 +247,7 @@ fun loginInfoDisplay(email: String, password: String, onBackClicked: () -> Unit)
                 text = "Password: $password",
                 style = MaterialTheme.typography.body1
             )
+            Spacer(modifier = Modifier.height(15.dp))
             Button(onClick = {
                 onBackClicked()
             }) {
@@ -235,13 +257,12 @@ fun loginInfoDisplay(email: String, password: String, onBackClicked: () -> Unit)
     }
 }
 
-
 /*registerForm method: displaying registration from.
 * note: when calling method, put it out of Column,or the size would be limited
 * added lambda function onDataSubmitted to pass email and password value back to textFields in login
 * */
 @Composable
-fun registerForm(onDismiss:() -> Unit, onDataSubmitted:(String,String) -> Unit) {
+fun registerForm(onDismiss: () -> Unit, onDataSubmitted: (String, String) -> Unit) {
     val username = remember { mutableStateOf("") }
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
@@ -306,7 +327,7 @@ fun registerForm(onDismiss:() -> Unit, onDataSubmitted:(String,String) -> Unit) 
                 Button(
                     onClick = {
 
-                        onDataSubmitted(email.value,password.value)
+                        onDataSubmitted(email.value, password.value)
                         onDismiss()
                     },
                     enabled = !username.value.isEmpty() && !email.value.isEmpty() && !password.value.isEmpty() && !confirmPwd.value.isEmpty()
